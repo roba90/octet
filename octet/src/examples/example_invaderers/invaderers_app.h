@@ -88,6 +88,8 @@ namespace octet {
          0,  1,
       };
 
+	  // aargh!
+
       // attribute_uv is position in the texture of each corner
       // each corner (vertex) has 2 floats (x, y)
       // there is no gap between the 2 floats and hence the stride is 2*sizeof(float)
