@@ -218,8 +218,15 @@ namespace octet {
 
       live_invaderers--;
       score++;
-      if (live_invaderers == 4) {
-        invader_velocity *= 4;
+	  if (live_invaderers == 3) {
+		  invader_velocity *= 2;
+	  }
+	  else if (live_invaderers == 2) {
+		  invader_velocity *= 3;
+	  }
+	  else if (live_invaderers == 1) {
+		  invader_velocity *= 4;
+	  
       } else if (live_invaderers == 0) {
         game_over = true;
         sprites[game_over_sprite].translate(-20, 0);
@@ -242,12 +249,12 @@ namespace octet {
     void move_ship() {
       const float ship_speed = 0.05f;
       // left and right arrows
-      if (is_key_down(key_left)) {
+      if (is_key_down('N')) {
         sprites[ship_sprite].translate(-ship_speed, 0);
         if (sprites[ship_sprite].collides_with(sprites[first_border_sprite+2])) {
           sprites[ship_sprite].translate(+ship_speed, 0);
         }
-      } else if (is_key_down(key_right)) {
+      } else if (is_key_down('M')) {
         sprites[ship_sprite].translate(+ship_speed, 0);
         if (sprites[ship_sprite].collides_with(sprites[first_border_sprite+3])) {
           sprites[ship_sprite].translate(-ship_speed, 0);
