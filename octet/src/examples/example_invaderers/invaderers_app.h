@@ -363,7 +363,7 @@ namespace octet {
 
     // move the array of enemies
     void move_invaders(float dx, float dy) {
-      for (int j = 0; j != num_invaderers; ++j) {
+      for (int j = 10; j != num_invaderers; ++j) {
         sprite &invaderer = sprites[first_invaderer_sprite+j];
         if (invaderer.is_enabled()) {
           invaderer.translate(dx, dy);
