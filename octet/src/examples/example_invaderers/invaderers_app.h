@@ -509,7 +509,7 @@ namespace octet {
       sprite &border = sprites[first_border_sprite+(invader_velocity < 0 ? 2 : 3)];
       if (invaders_collide(border)) {
         invader_velocity = -invader_velocity;
-        move_invaders(invader_velocity, -0.1f);
+        move_invaders(invader_velocity, -0.5f);
       }
     }
 
