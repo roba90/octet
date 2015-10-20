@@ -433,13 +433,13 @@ namespace octet {
 
       font_texture = resource_dict::get_texture_handle(GL_RGBA, "assets/big_0.gif");
 
-      GLuint ship = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/ship.gif");
+      GLuint ship = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/pikachu.gif");
       sprites[ship_sprite].init(ship, 0, -2.75f, 0.25f, 0.25f);
 
       GLuint GameOver = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/GameOver.gif");
       sprites[game_over_sprite].init(GameOver, 20, 0, 3, 1.5f);
 
-      GLuint invaderer = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/invaderer.gif");
+      GLuint invaderer = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/ship.gif");
       for (int j = 0; j != num_rows; ++j) {
         for (int i = 0; i != num_cols; ++i) {
           assert(first_invaderer_sprite + i + j*num_cols <= last_invaderer_sprite);
