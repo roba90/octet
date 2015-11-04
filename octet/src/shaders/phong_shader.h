@@ -63,7 +63,7 @@ namespace octet { namespace shaders {
       
         void main() {
           vec3 nnormal = normalize(normal_);
-          vec3 half_direction = normalize(light_direction + vec3(0, 0, 1));
+          vec3 half_direction = normalize(light_direction + vec3(0, 0, 2));
           float diffuse_factor = max(dot(light_direction, nnormal), 0.0);
           float specular_factor = pow(max(dot(half_direction, nnormal), 0.0), shininess);
           vec4 diffuse = texture2D(samplers[0], uv_);

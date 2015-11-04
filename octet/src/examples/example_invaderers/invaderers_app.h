@@ -567,32 +567,53 @@ namespace octet {
     }
   };
 }
-#include <iostream>
-#include <fstream>
-using namespace std;
+//called to read a CSV file for the background map
+void read_csv() {
 
-int main()
-{
-	ofstream myfile;
-	myfile.open("filetest.txt");
-	myfile << "this will show up. \n";
-	myfile.close();
+	std::ifstream file("");
 
-	system("pause");
-	return 0;
-}
+	char buffer[2048];
+	int i = 0;
 
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <fstream>
-using namespace std;
-int main() {
-	ifstream infile("example.csv"); // for example
-	string line = "";
-	while (getline(infile, line)) {
-		stringstream strstr(line);
-		string word = "";
-		while (getline(strstr, word, ';')) cout << word << '\n';
+	while (!file.eof()) {
+		file.getline(buffer, sizeof(buffer));
+
+		char *b = buffer;
+		for (int j = 0; ; ++j) {
+			char *e = b;
+			while (*e != 0 && *e != ';') ++e;
+
+			map[i][j] = std::atoi(b);
+
+			if (*e != ';') break;
+			b = e + 1;
+		}
+		++i;
 	}
 }
+
+// read CSV for object map
+void read_csv2() {
+
+	std::ifstream file("");
+
+	char buffer[2048];
+	int i = 0;
+
+	while (!file.eof()) {
+		file.getline(buffer, sizeof(buffer));
+
+		char *b = buffer;
+		for (int j = 0;; ++j) {
+			char *e = b;
+			while (*e != 0 && *e != ';') ++e;
+
+			map2[i][j] = std::atoi(b);
+
+			if (*e != ';') break;
+			b = e + 1;
+		}
+		++i;
+	}
+}
+
