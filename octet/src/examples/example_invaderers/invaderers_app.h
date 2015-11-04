@@ -208,6 +208,23 @@ namespace octet {
     // information for our text
     bitmap_font font;
 
+	enum direction {
+		LEFT,
+		RIGHT,
+		UP,
+		DOWN
+	};
+
+	direction myDirection;
+
+	static const int map_width = 20;
+	static const int map_height = 20;
+	int map [map_height][map_width];
+	int map2 [map_height][map_width];
+	dynarray<sprite> map_sprites_bush;
+	dynarray<sprite> map_sprites_dirt;
+	dynarray<sprite> object_sprites;
+
     ALuint get_sound_source() { return sources[cur_source++ % num_sound_sources]; }
 
     // called when we hit an enemy
@@ -446,6 +463,15 @@ namespace octet {
     void app_init() {
       // set up the shader
       texture_shader_.init();
+	  //rob_shader_.init();
+
+	  read_csv();
+	  read_csv2();
+	  setup_visual_map();
+	  
+
+	  myDirection = RIGHT;
+
 
       // set up the matrices with a camera 5 units from the origin
       cameraToWorld.loadIdentity();
@@ -542,7 +568,7 @@ namespace octet {
       glViewport(x, y, w, h);
 
       // clear the background to black
-      glClearColor(0, 1, 0, 1);
+      glClearColor(0, 0, 0, 1);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       // don't allow Z buffer depth testing (closer objects are always drawn in front of far ones)
@@ -551,6 +577,16 @@ namespace octet {
       // allow alpha blend (transparency when alpha channel is 0)
       glEnable(GL_BLEND);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	  //draw the map sprites(bush)
+	  for (unsigned int i = 0; i < map_sprites_bush.size(); ++i) {
+	  map_sprites_bush[i].render(texture_shader_, cameraToWorld);
+	  }
+
+	  //draw the map sprites(dirt)
+	  for (unsigned int i = 0; i < map_sprites_dirt.size(); ++i) {
+		  map_sprites_dirt[i].render(texture_shader_, cameraToWorld);
+	  }
 
       // draw all the sprites
       for (int i = 0; i != num_sprites; ++i) {
@@ -565,55 +601,90 @@ namespace octet {
       vec4 &cpos = cameraToWorld.w();
       alListener3f(AL_POSITION, cpos.x(), cpos.y(), cpos.z());
     }
+	//called to read a CSV file for the background map
+	void read_csv() {
+
+		std::ifstream file("backgroundmap1.csv");
+
+		char buffer[2048];
+		int i = 0;
+
+		while (!file.eof()) {
+			file.getline(buffer, sizeof(buffer));
+
+			char *b = buffer;
+			for (int j = 0; ; ++j) {
+				char *e = b;
+				while (*e != 0 && *e != ',') ++e;
+
+				map[i][j] = std::atoi(b);
+
+				if (*e != ',') break;
+				b = e + 1;
+			}
+			++i;
+		}
+	}
+
+	// read CSV for object map
+	void read_csv2() {
+
+		std::ifstream file("backgroundmap1.csv");
+
+		char buffer[2048];
+		int i = 0;
+
+		while (!file.eof()) {
+			file.getline(buffer, sizeof(buffer));
+
+			char *b = buffer;
+			for (int j = 0;; ++j) {
+				char *e = b;
+				while (*e != 0 && *e != ',') ++e;
+
+				map2[i][j] = std::atoi(b);
+
+				if (*e != ',') break;
+				b = e + 1;
+			}
+			++i;
+		}
+	}
+
+	int num_bush = 0;
+
+	void setup_visual_map() {
+
+		GLuint bush = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/grass1.gif");
+		GLuint dirt = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/wildgrass1.gif");
+
+		for (int i = 0; i < map_height; ++i) {
+			for (int j = 0; j < map_width; ++j) {
+
+				sprite s;
+
+
+				if (map[i][j] == 1) {
+
+					s.init(bush, -3 + 0.15f + 0.3f*j, 3 - 0.15f - 0.3*i, 0.3f, 0.3f);
+					map_sprites_bush.push_back(s);
+						
+
+
+
+				}
+				else if (map[i][j] == 0) {
+					s.init(dirt, -3 + 0.15f + 0.3f*j, 3 - 0.15f - 0.3*i, 0.3f, 0.3f);
+					map_sprites_dirt.push_back(s);
+				}
+			}
+		}
+	}
+
+
+
   };
+
+
+
 }
-//called to read a CSV file for the background map
-void read_csv() {
-
-	std::ifstream file("");
-
-	char buffer[2048];
-	int i = 0;
-
-	while (!file.eof()) {
-		file.getline(buffer, sizeof(buffer));
-
-		char *b = buffer;
-		for (int j = 0; ; ++j) {
-			char *e = b;
-			while (*e != 0 && *e != ';') ++e;
-
-			map[i][j] = std::atoi(b);
-
-			if (*e != ';') break;
-			b = e + 1;
-		}
-		++i;
-	}
-}
-
-// read CSV for object map
-void read_csv2() {
-
-	std::ifstream file("");
-
-	char buffer[2048];
-	int i = 0;
-
-	while (!file.eof()) {
-		file.getline(buffer, sizeof(buffer));
-
-		char *b = buffer;
-		for (int j = 0;; ++j) {
-			char *e = b;
-			while (*e != 0 && *e != ';') ++e;
-
-			map2[i][j] = std::atoi(b);
-
-			if (*e != ';') break;
-			b = e + 1;
-		}
-		++i;
-	}
-}
-
