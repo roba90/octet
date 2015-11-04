@@ -246,21 +246,34 @@ namespace octet {
     }
 
     // use the keyboard to move the ship
-    void move_ship() {
-      const float ship_speed = 0.2f;
-      // left and right arrows
-      if (is_key_down((char)'N')) {
-        sprites[ship_sprite].translate(-ship_speed, 0);
-        if (sprites[ship_sprite].collides_with(sprites[first_border_sprite+2])) {
-          sprites[ship_sprite].translate(+ship_speed, 0);
-        }
-      } else if (is_key_down((char)'M')) {
-        sprites[ship_sprite].translate(+ship_speed, 0);
-        if (sprites[ship_sprite].collides_with(sprites[first_border_sprite+3])) {
-          sprites[ship_sprite].translate(-ship_speed, 0);
-        }
-      }
-    }
+	void move_ship() {
+		const float ship_speed = 0.2f;
+		// left and right arrows
+		if (is_key_down((char)'A')) {
+			sprites[ship_sprite].translate(-ship_speed, 0);
+			if (sprites[ship_sprite].collides_with(sprites[first_border_sprite + 2])) {
+				sprites[ship_sprite].translate(+ship_speed, 0);
+			}
+		}
+		if (is_key_down((char)'D')) {
+			sprites[ship_sprite].translate(+ship_speed, 0);
+			if (sprites[ship_sprite].collides_with(sprites[first_border_sprite + 3])) {
+				sprites[ship_sprite].translate(-ship_speed, 0);
+			}
+		}	
+		if (is_key_down((char)'W')) {
+			sprites[ship_sprite].translate(0, +ship_speed);
+			if (sprites[ship_sprite].collides_with(sprites[first_border_sprite + 1])) {
+				sprites[ship_sprite].translate(0, -ship_speed);
+			}
+		}
+		if (is_key_down((char)'S')) {
+			sprites[ship_sprite].translate(0, -ship_speed);
+			if (sprites[ship_sprite].collides_with(sprites[first_border_sprite + 0])) {
+				sprites[ship_sprite].translate(0, +ship_speed);
+			}
+		}
+	}
 
     // fire button (space)
     void fire_missiles() {
@@ -367,6 +380,13 @@ namespace octet {
         sprite &invaderer = sprites[first_invaderer_sprite+j];
         if (invaderer.is_enabled()) {
           invaderer.translate(dx, dy);
+		  if (sprites[first_invaderer_sprite + j].collides_with(sprites[first_border_sprite + 0])) {
+			  num_lives = 0;
+			  draw_text(texture_shader_, 1.95f, 2, 1.0f / 256, "test");
+			  game_over = true;
+
+			  //sprites[game_over_sprite].translate(-20, 0);
+		  }
         }
       }
     }
@@ -433,13 +453,13 @@ namespace octet {
 
       font_texture = resource_dict::get_texture_handle(GL_RGBA, "assets/big_0.gif");
 
-      GLuint ship = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/ash3.gif");
+      GLuint ship = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/ship.gif");
       sprites[ship_sprite].init(ship, 0, -2.75f, 0.25f, 0.25f);
 
       GLuint GameOver = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/GameOver.gif");
       sprites[game_over_sprite].init(GameOver, 20, 0, 3, 1.5f);
 
-      GLuint invaderer = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/pikachu2.gif");
+      GLuint invaderer = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/invaderer.gif");
       for (int j = 0; j != num_rows; ++j) {
         for (int i = 0; i != num_cols; ++i) {
           assert(first_invaderer_sprite + i + j*num_cols <= last_invaderer_sprite);
@@ -457,7 +477,7 @@ namespace octet {
       sprites[first_border_sprite+3].init(white, 3,  0, 0.2f, 6);
 
       // use the missile texture
-      GLuint missile = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/ball1.gif");
+      GLuint missile = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/missile.gif");
       for (int i = 0; i != num_missiles; ++i) {
         // create missiles off-screen
         sprites[first_missile_sprite+i].init(missile, 20, 0, 0.0625f, 0.25f);
@@ -465,7 +485,7 @@ namespace octet {
       }
 
       // use the bomb texture
-      GLuint bomb = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/bolt3.gif");
+      GLuint bomb = resource_dict::get_texture_handle(GL_RGBA, "assets/invaderers/bomb.gif");
       for (int i = 0; i != num_bombs; ++i) {
         // create bombs off-screen
         sprites[first_bomb_sprite+i].init(bomb, 20, 0, 0.0625f, 0.25f);
@@ -483,7 +503,7 @@ namespace octet {
       bombs_disabled = 50;
       invader_velocity = 0.01f;
       live_invaderers = num_invaderers;
-      num_lives = 3;
+      num_lives = 5;
       game_over = false;
       score = 0;
     }
@@ -491,6 +511,7 @@ namespace octet {
     // called every frame to move things
     void simulate() {
       if (game_over) {
+
         return;
       }
 
@@ -538,11 +559,40 @@ namespace octet {
 
       char score_text[32];
       sprintf(score_text, "score: %d   lives: %d\n", score, num_lives);
-      draw_text(texture_shader_, -1.75f, 2, 1.0f/256, score_text);
+      draw_text(texture_shader_, 1.95f, 2, 1.0f/256, score_text);
 
       // move the listener with the camera
       vec4 &cpos = cameraToWorld.w();
       alListener3f(AL_POSITION, cpos.x(), cpos.y(), cpos.z());
     }
   };
+}
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+	ofstream myfile;
+	myfile.open("filetest.txt");
+	myfile << "this will show up. \n";
+	myfile.close();
+
+	system("pause");
+	return 0;
+}
+
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <fstream>
+using namespace std;
+int main() {
+	ifstream infile("example.csv"); // for example
+	string line = "";
+	while (getline(infile, line)) {
+		stringstream strstr(line);
+		string word = "";
+		while (getline(strstr, word, ';')) cout << word << '\n';
+	}
 }
