@@ -295,7 +295,7 @@ namespace octet {
       }
     }
 
-    // use the keyboard to move the ash
+    // use the keyboard to move Ash
 	void move_ash() {
 		const float ash_speed = 0.2f;
 		// left and right arrows
@@ -553,7 +553,7 @@ namespace octet {
       }
 
       // sounds
-      whoosh = resource_dict::get_sound_handle(AL_FORMAT_MONO16, "assets/invaderers/whoosh.wav");
+      whoosh = resource_dict::get_sound_handle(AL_FORMAT_MONO16, "assets/invaderers/bolt.wav");
       bang = resource_dict::get_sound_handle(AL_FORMAT_MONO16, "assets/invaderers/bang.wav");
       cur_source = 0;
       alGenSources(num_sound_sources, sources);
@@ -561,9 +561,9 @@ namespace octet {
       // sundry counters and game state.
       missiles_disabled = 0;
       bombs_disabled = 50;
-      invader_velocity = 0.02f;
+      invader_velocity = 0.01f;
       live_invaderers = num_invaderers;
-      num_lives = 5;
+      num_lives = 3;
       game_over = false;
       score = 0;
     }
