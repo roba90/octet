@@ -134,22 +134,22 @@ glUseProgram (<prog ID>)
 
 In conclusion the things I changed within the game code were:
 
-Speed of invaderers
-Speed of ship
-Invaderer image 
-Ship image
-Missile image
-Bomb image
-Whoosh sound
-Bang sound
-Array of enemies = top layer were stationary
-Movement controls to A,S,W,D and included up and down functions within this
-Background colour
-Background image using CSV
-Game over when sprites reach the bottom of the screen
-Number of lives
-Position of ‘Score’ and ‘Lives’ to top right
-Fragment shader
+Speed of invaderers,
+Speed of ship,
+Invaderer image, 
+Ship image,
+Missile image,
+Bomb image,
+Whoosh sound,
+Bang sound,
+Array of enemies = top layer were stationary,
+Movement controls to A,S,W,D and included up and down functions within this,
+Background colour,
+Background image using CSV,
+Game over when sprites reach the bottom of the screen,
+Number of lives,
+Position of ‘Score’ and ‘Lives’ to top right,
+Fragment shader.
 
 In the end I went for a Pokémon themed game with Pikachu as the invaderer, Ash Ketchum as the ship and scenes from the game as the background.
 
