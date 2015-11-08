@@ -6,8 +6,8 @@ In this report I will seek to convey my experience of using C++ for the ‘examp
 
 Having no previous experience using C++ I started by looking at some basic tutorials learning how the program worked and how it could be used.
 
-#include "stdafx.h"
-#include <iostream>
+//#include "stdafx.h"
+//#include <iostream>
 
 int main()
 {
