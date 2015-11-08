@@ -6,8 +6,8 @@ In this report I will seek to convey my experience of using C++ for the ‘examp
 
 Having no previous experience using C++ I started by looking at some basic tutorials learning how the program worked and how it could be used.
 
-//#include "stdafx.h"
-//#include<iostream>
+#include "stdafx.h"
+#include <iostream>
 
 int main()
 {
@@ -110,12 +110,12 @@ And finally the code for rendering it in the game.
 The way I used this code was to change the background to two different images depending on where the 0 and 1 were in the CSV file.
 
 I used Mircea Catana’s code for the ‘fragment shader’ and tried to change it myself to fit my goals, learning about shaders in the process. 
-Shaders are a program and there are two primary types, Fragment and Vertex shaders. Fragment shaders effect the colour of a pixel while Vertex shaders effect the position of a vertex. 
+Shaders are a program (though of as a 'pipeline') and there are two primary types, Fragment and Vertex shaders. Fragment shaders effect the colour of a pixel while Vertex shaders effect the position of a vertex. These programs are the two largest parts of the rendering 'pipeline'.
 
 The first step to implementing a simple shader code is to compile the shader:
 
 <GLuint> glCreateShader (<type>)
-//Cretaes an ID of a shader
+//Creates an ID of a shader
 glShaderSource (<id>, <count>, <src code>, <lengths>)
 //Binds the source code to the shader
 glCompileShader (<id>)
