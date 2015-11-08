@@ -6,14 +6,14 @@ In this report I will seek to convey my experience of using C++ for the ‘examp
 
 Having no previous experience using C++ I started by looking at some basic tutorials learning how the program worked and how it could be used.
 
-#include "stdafx.h"
-#include <iostream>
++ include "stdafx.h"
++ include <iostream>
 
-int main()
-{
-std::cout << "Hello world!" << std::endl;
-return 0;
-}
++ int main()
++ {
++ std::cout << "Hello world!" << std::endl;
++ return 0;
++ }
 
 The first thing I tried in the solution was to change small things and see how they changed the game, then seeking to find out ‘why’ they changed it.
 
